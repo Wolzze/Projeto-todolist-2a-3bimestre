@@ -3,6 +3,7 @@ import { Alert, Image, StyleSheet, Text, TextInput, TouchableOpacity, View } fro
 import logo from './assets/todolist.png';
 import add from './assets/add.png';
 import { useState } from 'react';
+import { FlashList } from '@shopify/flash-list';
 
 export default function App() {
   const [tarefa, settarefa] = useState("");
@@ -14,6 +15,8 @@ export default function App() {
     settarefa("");
   }
 
+  const renderItem = ({ item }) => <View><Text>{item}</Text></View>
+
   return (
     <View style={styles.container}>
       <View>
@@ -22,14 +25,17 @@ export default function App() {
       </View>
       <View style={styles.viewInput}>
         <TextInput
-          placeholder= "Entre com a tarefa"
+          placeholder="Entre com a tarefa"
           value={tarefa}
           onChangeText={settarefa}
         />
         <TouchableOpacity onPress={handleAdd}>
-        <Image source={add} style={styles.add} />
+          <Image source={add} style={styles.add} />
         </TouchableOpacity>
-        </View>
+      </View>
+      <View style={styles.viewTarefas}>
+        <FlashList data={tarefas} renderItem={renderItem} />
+      </View>
       <StatusBar style="auto" />
     </View>
   );
@@ -54,5 +60,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     width: "100%"
+  },
+  viewTarefas: {
+    width: "100%",
+    flex: 1
   }
 });
