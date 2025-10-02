@@ -4,6 +4,7 @@ import logo from './assets/todolist.png';
 import add from './assets/add.png';
 import { useState } from 'react';
 import { FlashList } from '@shopify/flash-list';
+import imgexcluir from './assets/bin.png'
 
 export default function App() {
   const [tarefa, settarefa] = useState("");
@@ -15,7 +16,17 @@ export default function App() {
     settarefa("");
   }
 
-  const renderItem = ({ item }) => <View><Text>{item}</Text></View>
+  const renderItem = ({ item }) =>
+    <View style={styles.viewItem}>
+      <Text>{item}</Text>
+      <TouchableOpacity onPress={() => handleExcluir(item)}>
+        <Image style={styles.imgexcluir} source={imgexcluir} alt="Botão Excluir" />
+      </TouchableOpacity>
+    </View>
+
+    const handleExcluir = (item) => {
+      settarefas(tarefas.filter((olditem) => olditem !== item))
+    }
 
   return (
     <View style={styles.container}>
@@ -47,6 +58,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+    padding: 20
   },
   logo: {
     height: 128,
@@ -64,5 +76,15 @@ const styles = StyleSheet.create({
   viewTarefas: {
     width: "100%",
     flex: 1
+  },
+  imgexcluir: {
+    height: 28,
+    width: 28
+  },
+  viewItem: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginTop: 10
   }
 });
